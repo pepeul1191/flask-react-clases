@@ -1,13 +1,10 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import Flask
+from main.application import APP
+from main.blueprints import register
 
 if __name__ == '__main__':
-  APP = Flask(
-    __name__,
-    static_folder='./static',
-    static_url_path='/'
-  )
+  register(APP)
   # run app
   APP.run(
     debug=True,
