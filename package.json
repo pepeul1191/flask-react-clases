@@ -1,0 +1,19 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "Instalar y activar el ambiente virtual - Linux:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:new": "npx dbmate -d \"db/migrations\" -e \"DB\" new ",
+    "db:up": "npx dbmate -d \"db/migrations\" -e \"DB\" up",
+    "db:rollback": "npx dbmate -d \"db/migrations\" -e \"DB\" rollback"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dbmate": "^2.25.0",
+    "sqlite3": "^5.1.7"
+  }
+}

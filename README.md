@@ -18,3 +18,7 @@ Arrancar aplicación:
     $ pip install -r requirements.txt
     $ mkdir static/uploads
     $ python main.py
+
+.env
+
+    DB="sqlite3:db/app.db"
