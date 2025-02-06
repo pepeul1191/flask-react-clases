@@ -6,7 +6,7 @@ CREATE TABLE body_parts (
 CREATE TABLE members (
   id	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   name	VARCHAR(40),
-  codigo	VARCHAR(5),
+  code	VARCHAR(5),
   dni	VARCHAR(8),
   email	VARCHAR(40),
   phone	VARCHAR(40)
@@ -45,7 +45,7 @@ CREATE TABLE routines (
   created DATE,
   endend DATE,
   medical_obs BOOLEAN,
-  warm_ups BOOLEAN,
+  warm_ups INTEGER,
   level_id	INTEGER,
   objective_id	INTEGER,
   member_id	INTEGER,
@@ -75,7 +75,6 @@ INSERT INTO "schema_migrations" (version) VALUES
   ('20250204173445'),
   ('20250204173505'),
   ('20250204173510'),
-  ('20250204174335'),
   ('20250204180337'),
   ('20250204225118'),
   ('20250204225855'),
