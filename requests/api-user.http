@@ -1,0 +1,31 @@
+@baseUrl = http://localhost:5000/api
+
+### Obtener la lista de usuarios
+GET {{baseUrl}}/admin/users
+
+### Obtener usuario por id
+GET {{baseUrl}}/admin/users/1555
+
+### Borrar usuario por id
+DELETE {{baseUrl}}/admin/users/46
+
+### Crear un nuevo usuario
+POST http://localhost:5000/api/admin/users
+Content-Type: application/json
+
+{
+  "user_name": "USER1",
+  "password": "PASS123",
+  "member_id": 101
+}
+
+### Actualizar usuario
+PUT http://localhost:5000/api/admin/users
+Content-Type: application/json
+
+{
+  "id": 41,
+  "user_name": "USER1222222244444422222",
+  "password": "PASS1244444444443",
+  "member_id": 101
+}
