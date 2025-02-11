@@ -12,15 +12,12 @@
   <!-- menu de navegación -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="/">Admin</a>
+      <a class="navbar-brand" href="/">Admin ({{session['user']['user_name'] + ', '+ session['member']['name']}})</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link {% if locals['nav_active'] == 'home' %}active{% endif %}" href="/admin">Home</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link {% if locals['nav_active'] == 'nosotros' %}active{% endif %}" href="/admin/body-parts">Partes del Cuerpo</a>
           </li>
@@ -28,10 +25,7 @@
             <a class="nav-link" href="/admin/users">Usuarios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Clientes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if locals['nav_active'] == 'contacto' %}active{% endif %}" href="/contacto">Contacto</a>
+            <a class="nav-link {% if locals['nav_active'] == 'contacto' %}active{% endif %}" href="/sign-out">Salir</a>
           </li>
         </ul>
       </div>
