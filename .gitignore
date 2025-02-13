@@ -31,3 +31,4 @@ static/dist
 .env
 
 .zip
+flask_session
