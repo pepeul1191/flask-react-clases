@@ -2,12 +2,14 @@
 # -*- coding: utf-8 -*-
 import traceback
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
 from main.database import Session
 from main.models import User
 
 api = Blueprint('admin-api-user', __name__)
 
 @api.route('/api/admin/users', methods=['GET'])
+@jwt_required()
 def fetch_all():
   # data
   response = None

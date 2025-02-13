@@ -25,7 +25,7 @@
             <a class="nav-link" href="/admin/users">Usuarios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if locals['nav_active'] == 'contacto' %}active{% endif %}" href="/sign-out">Salir</a>
+            <button id="btnSignOut" class="nav-link {% if locals['nav_active'] == 'contacto' %}active{% endif %}" href="/sign-out">Salir</button>
           </li>
         </ul>
       </div>
@@ -35,7 +35,35 @@
   <!-- footer -->
   {{copyright(2025)|safe}}
   <!-- scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
   {% block extra_scripts %}{% endblock %}
+  <script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const btnSignOut = document.getElementById('btnSignOut');
+    if (btnSignOut) {
+      btnSignOut.addEventListener('click', (event) => {
+        event.preventDefault();
+        const token = localStorage.getItem('jwtToken');
+        alert('Intentando cerrar sesión...'); // Alerta para verificar que el evento se dispara
+        axios.get('/api/sign-out', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(function(response) {
+          console.log('Sesión cerrada:', response);
+          localStorage.removeItem('jwtToken');  // Eliminar el token del almacenamiento local
+          // Redirigir al usuario a la página de inicio o de login
+          window.location.href = '/';
+        }).catch(function(error) {
+          console.error('Error al cerrar sesión:', error);
+        });
+      });
+    } else {
+      console.error('El botón de cierre de sesión no se encontró.');
+    }
+  });
+  </script>
 </body>
 </html>

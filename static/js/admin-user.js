@@ -35,8 +35,15 @@ const deleteUser = (id) => {
 
 
 const getUsers = () => {
-  fetch('/api/admin/users')
-    .then(response => {
+  const token =  localStorage.getItem('jwtToken');
+  console.log(token)
+  fetch('/api/admin/users', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(response => {
       if (!response.ok) {
         throw new Error('Error en la solicitud: ' + response.status);
       }

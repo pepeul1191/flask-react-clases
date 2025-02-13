@@ -15,12 +15,16 @@ def not_found(e):
 def only_logged(fn):
   @wraps(fn)
   def _only_logged(*args, **kwargs):
+    print('1 +++++++++++++++++++++++++++++++++')
     # si la session es activaa, vamos a '/accesos/'
-    if session.get('status'):
-      if session.get('status') == False:
+    user_agent = request.headers.get('User-Agent', '').lower()
+    browser_agents = ['mozilla', 'chrome', 'safari', 'firefox', 'edge', 'opera']
+    if any(browser in user_agent for browser in browser_agents):
+      if session.get('status'):
+        if session.get('status') == False:
+          return redirect('/error/403')
+      else:
         return redirect('/error/403')
-    else:
-      return redirect('/error/403')
     return fn(*args, **kwargs)
   return _only_logged
 
