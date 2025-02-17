@@ -33,7 +33,7 @@ def index():
     'nav_active': 'home',
     'comments': comments,
   }
-  return render_template('home.html', locals=locals) 
+  return render_template('home_v2.html', locals=locals) 
 
 @view.route('/nosotros', methods=['GET'])
 def about():
