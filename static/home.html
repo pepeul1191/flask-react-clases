@@ -3,102 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
   <title>Inicio</title>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">MiSitio</a>
+  <!-- menu de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Végueta</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+            <a class="nav-link active" href="/home.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Acerca de</a>
+            <a class="nav-link" href="/nosotros.html">Nosotros</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Servicios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contacto</a>
+            <a class="nav-link" href="#">Clientes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contacto.html">Contacto</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-
-  <div class="hero-slider">
-    <!-- Video de fondo -->
-    <video class="video-background" autoplay muted loop>
-      <source src="/video/vegueta.mp4" type="video/mp4">
-      Tu navegador no soporta la reproducción de videos.
-    </video>
-
-    <!-- Capa para oscurecer el video -->
-    <div class="hero-overlay"></div>
+  <!-- slider -->
+  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicadores -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
 
     <!-- Contenido del slider -->
-    <div class="hero-content container">
-      <h1 class="display-4">Bienvenido a Mi Sitio</h1>
-      <p class="lead">Un lugar donde tus ideas cobran vida.</p>
-      <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">Explorar Más</button>
-    </div>
-  </div>
-
-  <div class="fila">
-    <h1>INICIO</h1>
-    <h2>Slogan</h2>
-
-    <p>hola bienvenidos a <b>Végueta</b>, <span class="color-rojo letra-grandota">ciudad histórica</span><br>como están?</p>
-    <p>Que puedes visitar en Végueta</p>
-    <ul>
-      <li class="color-rojo">Playa</li>
-      <li>Pescadores</li>
-      <li>Piscina</li>
-      <li>Ruinas</li>
-    </ul>
-  </div>
-  <div class="fila">
-    <div class="columna">
-      <img src="/img/img01.jpeg" height="300" width="400"/>
-      <p>Camino a Caral</p>
-    </div>
-    <div class="columna">
-      <img src="/img/img02.jpeg" height="300" width="400"/>
-      <p>Campiña</p>
-    </div>
-    <div class="columna">
-      <img src="/img/img03.jpeg" height="300" width="400"/>
-      <p>Caral</p>
-    </div>  
-  </div>
-
-  <!-- Modals -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/img/img01.jpeg" class="d-block w-100" alt="Imagen 1">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Imagen 1</h5>
+          <p>Descripción breve de la primera imagen.</p>
         </div>
-        <div class="modal-body">
-          ...
+      </div>
+      <div class="carousel-item">
+        <img src="/img/img02.jpeg" class="d-block w-100" alt="Imagen 2">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Imagen 2</h5>
+          <p>Descripción breve de la segunda imagen.</p>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+      <div class="carousel-item">
+        <img src="/img/img03.jpeg" class="d-block w-100" alt="Imagen 3">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Imagen 3</h5>
+          <p>Descripción breve de la tercera imagen.</p>
         </div>
       </div>
     </div>
+
+    <!-- Controles de navegación -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
   </div>
-  <!-- Javascripts -->
+  <!-- info -->
+  <div class="container my-5">
+    <div class="row align-items-center">
+      <!-- Columna Izquierda -->
+      <div class="col-md-6">
+        <h1 class="display-5" id="titulo">Título de la Sección</h1>
+        <p class="lead">
+          Este es un texto de ejemplo que puedes personalizar. Aquí puedes describir algo importante o destacar información relevante.
+        </p>
+        <p>
+          Bootstrap facilita la creación de diseños responsivos y atractivos para que tu contenido se vea bien en cualquier dispositivo.
+        </p>
+      </div>
+
+      <!-- Columna Derecha -->
+      <div class="col-md-6">
+        <img id="figurita" src="/img/img01.jpeg" alt="Imagen de ejemplo" height="500" width="300"  class="img-fluid rounded">
+      </div>
+    </div>
+  </div>
+  <!--atractivos -->
+  <div class="container my-5">
+    <div class="row g-4" id="fila">
+      <!-- Atractivo 1 -->
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="/img/img01.jpeg" class="card-img-top" alt="Lugar emblemático">
+          <div class="card-body">
+            <h5 class="card-title">Nombre del Lugar Emblemático</h5>
+            <p class="card-text">
+              Este lugar es el corazón cultural de [Nombre de la Ciudad]. Su arquitectura histórica y su ambiente único lo convierten en una visita obligada.
+            </p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">📍 Ubicación: Centro Histórico</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Atractivo 2 
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="/img/img02.jpeg" class="card-img-top" alt="Parque o espacio natural">
+          <div class="card-body">
+            <h5 class="card-title">Parque o Espacio Natural</h5>
+            <p class="card-text">
+              Un oasis en medio de la ciudad. Perfecto para relajarse, caminar entre la naturaleza o disfrutar de un picnic con vistas espectaculares.
+            </p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">🌳 Actividades: Senderismo, fotografía, picnics</small>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="/img/img03.jpeg" class="card-img-top" alt="Museo o centro cultural">
+          <div class="card-body">
+            <h5 class="card-title">Museo o Centro Cultural</h5>
+            <p class="card-text">
+              Descubre la historia y el arte de la ciudad en este emblemático museo. Exhibiciones permanentes y temporales para todos los gustos.
+            </p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">🎨 Horarios: 10:00 AM - 6:00 PM</small>
+          </div>
+        </div>
+      </div>
+      -->
+    </div>
+  </div>
+  <!-- footer -->
+
+  <footer class="bg-dark text-white pt-5">
+    <div class="container">
+      <div class="row">
+        <!-- Secciones de la página -->
+        <div class="col-md-4 mb-4">
+          <h5>Secciones</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Nosotros</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Servicios</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Clientes</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Contacto</a></li>
+          </ul>
+        </div>
+
+        <!-- Información de contacto -->
+        <div class="col-md-4 mb-4">
+          <h5>Contacto</h5>
+          <p>
+            📍 Dirección: Calle Principal, 123<br>
+            📞 Teléfono: +1 234 567 890<br>
+            📧 Email: contacto@vegüeta.com
+          </p>
+          <p>Síguenos en:</p>
+          <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
+        </div>
+
+        <!-- Formulario -->
+        <div class="col-md-4 mb-4">
+          <h5>Suscríbete</h5>
+          <form action="#" method="POST">
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Tu correo" required>
+            </div>
+            <div class="mb-3">
+              <label for="mensaje" class="form-label">Mensaje</label>
+              <textarea class="form-control" id="mensaje" name="mensaje" rows="3" placeholder="Escribe tu mensaje"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Línea divisoria y derechos reservados -->
+    <div class="text-center bg-secondary py-3 mt-4">
+      <p class="mb-0">© 2025 Végueta. Todos los derechos reservados.</p>
+    </div>
+  </footer>
   <script src="/js/bootstrap.min.js"></script>
-  <script src="/js/app.js"></script>
+  <script src="/js/home.js"></script>
 </body>
 </html>

@@ -3,43 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <title>{{locals['title'] | default('Végueta')}}</title>
-  {% block extra_head %}{% endblock %}
+  <link rel="stylesheet" href="/css/styles.css">
+  <title>{{locals['title']}}</title>
 </head>
 <body>
   <!-- menu de navegación -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="/">Végueta</a>
+      <a class="navbar-brand" href="#">Végueta</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link {% if locals['nav_active'] == 'home' %}active{% endif %}" href="/">Home</a>
+            <a class="nav-link {% if locals['nav'] == 'home' %}active{% endif %}" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if locals['nav_active'] == 'nosotros' %}active{% endif %}" href="/nosotros">Nosotros</a>
+            <a class="nav-link  {% if locals['nav'] == 'nosotros' %}active{% endif %}" href="/nosotros">Nosotros</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Servicios</a>
+            <a class="nav-link" href="/servicios">Servicios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Clientes</a>
+            <a class="nav-link" href="/clientes">Clientes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if locals['nav_active'] == 'contacto' %}active{% endif %}" href="/contacto">Contacto</a>
+            <a class="nav-link  {% if locals['nav'] == 'contacto' %}active{% endif %}" href="/contacto">Contacto</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if locals['nav_active'] == 'contacto' %}active{% endif %}" href="/sign-in">Login</a>
+            <a class="nav-link" href="/sign-in">Ingresar</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+  <!-- content -->
   {% block content %}{% endblock %}
   <!-- footer -->
   <footer class="bg-dark text-white pt-5">
@@ -61,9 +61,9 @@
         <div class="col-md-4 mb-4">
           <h5>Contacto</h5>
           <p>
-            📍 Dirección: {{info['address']}}<br>
-            📞 Teléfono: {{info['phone']}}<br>
-            📧 Email: {{info['email']}}
+            📍 Dirección: Calle Principal, 123<br>
+            📞 Teléfono: +1 234 567 890<br>
+            📧 Email: contacto@vegüeta.com
           </p>
           <p>Síguenos en:</p>
           <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
@@ -89,10 +89,13 @@
       </div>
     </div>
 
-    {{copyright(2025)|safe}}
+    <!-- Línea divisoria y derechos reservados -->
+    <div class="text-center bg-secondary py-3 mt-4">
+      <p class="mb-0">© 2025 Végueta. Todos los derechos reservados.</p>
+    </div>
   </footer>
-  <!-- scripts -->
   <script src="/js/bootstrap.min.js"></script>
-  {% block extra_scripts %}{% endblock %}
+  <!-- javascripts -->
+  {% block javascripts %}{% endblock %}
 </body>
 </html>

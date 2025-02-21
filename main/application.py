@@ -1,26 +1,23 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify
-from flask_session import Session
-from main.constants import INFO
-from main.helpers import copyright
 from flask_jwt_extended import JWTManager
+from flask_session import Session
 
 APP = Flask(
   __name__,
   static_folder='../static',
   static_url_path='/'
 )
+
 APP.config['SECRET_KEY'] = 'your_secret_key'
 APP.config['SESSION_TYPE'] = 'filesystem'
 APP.config['SESSION_PERMANENT'] = False
 APP.config['SESSION_USE_SIGNER'] = True
 APP.config['SESSION_KEY_PREFIX'] = 'session:'
-# Configuración de JWT
 APP.config['JWT_SECRET_KEY'] = 'tu_clave_secreta_aqui' 
-# session
 Session(APP)
-# Inicializar la extensión JWT
+
 jwt = JWTManager(APP)
 
 REVOKED_TOKENS = []
@@ -45,11 +42,3 @@ def invalid_token_response(reason):
 @jwt.needs_fresh_token_loader
 def needs_fresh_token_response(jwt_header, jwt_payload):
   return jsonify({"error": "Se requiere un token fresco. Vuelve a iniciar sesión."}), 401
-
-# filters/helpers in templates
-@APP.context_processor
-def utility_processor():
-  return dict(
-    copyright=copyright,
-    info=INFO,
-  )

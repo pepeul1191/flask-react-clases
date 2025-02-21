@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client';
-import Web from '../components/layouts/Web.jsx';
-import '../assets/stylesheets/styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../assets/styles/styles.css';
+import Web from '../components/layouts/Web.jsx';
 
 createRoot(document.getElementById('root')).render(
   <>
-    <Web />
-  </>,
+  <Web />
+  </>
 )

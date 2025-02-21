@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/styles.css">
-  <title>{{locals['title'] | default('Végueta')}}</title>
   {% block extra_head %}{% endblock %}
+  <title>{{locals['title']}}</title>
 </head>
 <body>
+  <!-- content -->
   {% block content %}{% endblock %}
-  <!-- scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
-  {% block extra_scripts %}
-  {% endblock %}
+  <!-- javascripts -->
+  {% block javascripts %}{% endblock %}
 </body>
 </html>

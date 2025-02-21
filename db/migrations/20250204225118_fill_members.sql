@@ -1,6 +1,6 @@
 -- migrate:up
 
-INSERT INTO members (id, name, code, dni, email, phone) VALUES
+INSERT INTO members (id, name, codigo, dni, email, phone) VALUES
 (1, 'JUAN PEREZ', 'A001', '12345678', 'JUAN@EMAIL.COM', '555-1001'),
 (2, 'MARIA LOPEZ', 'A002', '23456789', 'MARIA@EMAIL.COM', '555-1002'),
 (3, 'CARLOS GOMEZ', 'A003', '34567890', 'CARLOS@EMAIL.COM', '555-1003'),

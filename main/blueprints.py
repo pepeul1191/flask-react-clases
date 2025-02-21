@@ -14,3 +14,4 @@ def register(app):
   for blueprints in modules_blueprints:
     for blueprint in blueprints:
       app.register_blueprint(blueprint)
+

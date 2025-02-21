@@ -16,22 +16,22 @@
     "linux_build": "npm run linux_build:clean && npm run linux_build:compile && npm run linux_build:move",
     "linux_build:clean": "rm -rf static/dist/*",
     "linux_build:compile": "vite build",
-    "linux_build:move": "cp build/* static/dist/",
+    "linux_build:move": "mkdir -p static/dist && cp build/* static/dist/",
     "windows_build": "npm run windows_build:clean && npm run windows_build:compile && npm run windows_build:move",
-    "windows_build:clean": "rmdir /s /q static\\dist",
+    "windows_build:clean": "if exist static\\dist rmdir /s /q static\\dist && mkdir static\\dist && copy build\\* static\\dist\\",
     "windows_build:compile": "vite build",
-    "windows_build:move": "xcopy /s /e /i /q build\\* static\\dist\\"
+    "windows_build:move": "if not exist static\\dist mkdir static\\dist && copy build\\* static\\dist\\"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^5.3.3",
     "react": "^19.0.0",
-    "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
+    "bootstrap": "^5.3.3",
+    "react-bootstrap": "^2.10.9",
     "react-router-dom": "^7.1.5"
-  },
+  }, 
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@types/react": "^18.3.18",

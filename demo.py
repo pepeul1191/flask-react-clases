@@ -1,66 +1,50 @@
-from main.models import Member, Exercise, BodyPart
-from main.database import Session
 from sqlalchemy import select, func, text
+from main.database import Session
+from main.models import BodyPart, Exercise
 
-def listar_mimembros():
+def listar_bodyparts():
   session = Session()
-  members = session.query(Member).all()
-  for member in members:
-    print(member)
+  body_parts = session.query(BodyPart).all() # SELECT * FROM body_parts;
+  for body_part in body_parts:
+    print(body_part)
 
-def insertar_miembro():
+def listar_bodyparts_filtro(num):
+  # SELECT name FROM body_parts WHERE id > 4
   session = Session()
-  nuevo_miembro = Member(
-    name="Lucía Fernández",
-    code="B102",
-    dni="87654321",
-    email="lucia@example.com",
-    phone="555-6789"
-  )
-  # Agregar y confirmar la inserción en la base de datos
-  session.add(nuevo_miembro)
+  resultados = session.query(BodyPart.name).filter(BodyPart.id > num).all()
+  # Mostrar los resultados
+  for nombre in resultados:
+    print(nombre[0])  # Accede al valor del nombre
+
+def editar_bodypart(body_part_id, name):
+  session = Session()
+  # SELECT * FROM body_parts WHERE id = :body_part_id LIMIT 1
+  body_part = session.query(BodyPart).filter_by(id=body_part_id).first()
+  if body_part:
+    body_part.name = name
+    session.commit()
+    print(f"Body Part actualizado: {body_part}")
+  else:
+    print(f"No se encontró ningún body_part con ID {body_part_id}")
+
+def crear_body_part(name):
+  body_part = BodyPart(name=name)
+  session = Session()
+  session.add(body_part)
   session.commit()
-  print(nuevo_miembro.id)
+  print(body_part.id)
 
-def editar_miembro(member_id):
+def borrar_body_part(body_part_id):
   session = Session()
-  miembro = session.query(Member).filter_by(id=member_id).first()
-  if miembro:
-      # Actualizar campos específicos
-      miembro.name = "Lucía Fernández Actualizado"
-      miembro.email = "lucia_actualizado@example.com"
-      miembro.phone = "555-9999"
-
-      # Guardar los cambios
-      session.commit()
-
-      # Mostrar el registro actualizado
-      print(f"Miembro actualizado: {miembro}")
+  # SELECT * FROM body_parts WHERE id = :body_part_id LIMIT 1
+  body_part = session.query(BodyPart).filter_by(id=body_part_id).first()
+  if body_part:
+    session.delete(body_part)
+    session.commit()
+    print(f"Body Part actualizado: {body_part}")
   else:
-      print(f"No se encontró ningún miembro con ID {member_id}")
+    print(f"No se encontró ningún body_part con ID {body_part_id}")
 
-def eliminar_miembro(member_id):
-  session = Session()
-  miembro = session.query(Member).filter_by(id=member_id).first()
-  if miembro:
-      session.delete(miembro)
-      session.commit()
-      # Mostrar el registro actualizado
-      print(f"Miembro actualizado: {miembro}")
-  else:
-      print(f"No se encontró ningún miembro con ID {member_id}")
-
-def query1():
-  session = Session()
-  ejercicios = session.query(Exercise).filter(Exercise.name.like('P%')).all()
-  print(len(ejercicios))
-
-def query2():
-  session = Session()
-  stmt = select(func.count(Exercise.id).label('cantidad')).where(Exercise.name.like('P%'))
-  result = session.execute(stmt).scalar()
-  print(result)
-   
 def query3():
   session = Session()
   resultados = session.query(Exercise, BodyPart).join(BodyPart).all()
@@ -74,9 +58,16 @@ def query4():
   sql = text("SELECT exercises.name, body_parts.name AS body_part FROM exercises JOIN body_parts ON exercises.body_part_id = body_parts.id")
   # Ejecutar la consulta
   result = session.execute(sql)
-
   # Mostrar los resultados
   for row in result:
-      print(f"Ejercicio: {row[0]}, Parte del Cuerpo: {row[1]}")
+    print(f"Ejercicio: {row[0]},,,,,,,,,, Parte del Cuerpo: {row[1]}")
 
+
+
+#listar_bodyparts_filtro(4)
+#editar_bodypart(100, 'PECHO')
+#@crear_body_part('orejas')
+#borrar_body_part(7)
+#borrar_body_part(8)
+#borrar_body_part(9)
 query4()
