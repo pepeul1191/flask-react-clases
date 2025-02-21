@@ -2,27 +2,63 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
+import { validateEmail } from '../../helpers/validations.js';
+import { sendMessage } from '../../services/website_service.js';
 
 class Footer extends Component {
-    constructor(props) {
+  constructor(props) {
     super(props);
-        // Estado inicial del componente
-        this.state = { };
-    }
-
-    incrementarContador = () => {
+    // Estado inicial del componente
+    this.state = {
+      email: '',
+      message: '',
+      disabled: true,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-    // Método del ciclo de vida que se ejecuta después de que el componente se monta
-    componentDidMount() {
-        console.log('Componente montado');
-        document.title = 'Ingresar a la Aplicación';
+  handleChange = (e) => {
+    this.setState(
+      { 
+        [e.target.name]: e.target.value 
+      },
+      () =>{
+        const { email, message } = this.state;
+        if (validateEmail(email) && message != ''){
+          this.setState({disabled: false});
+        }else{
+          this.setState({disabled: true});
+        }
+      }
+    );
+  };
+  // Método del ciclo de vida que se ejecuta después de que el componente se monta
+  componentDidMount() {
+    console.log('Componente montado');
+    document.title = 'Ingresar a la Aplicación';
+  }
+  // Método del ciclo de vida que se ejecuta justo antes de que el componente se desmonte
+  componentWillUnmount() {
+    console.log('Componente a punto de desmontarse');
+  }
+
+  handleSubmit(e) {
+    e.preventDefault(); // Previene la recarga de la página al enviar el formulario
+    const { email, message } = this.state;
+    const params = {
+      email: email,
+      message: message,
     }
-    // Método del ciclo de vida que se ejecuta justo antes de que el componente se desmonte
-    componentWillUnmount() {
-        console.log('Componente a punto de desmontarse');
-    }
-    render() {
+    sendMessage(params).then((resp) => {    
+      console.log(resp.data)
+    }).catch((resp) =>  {
+      console.error(resp)
+    });
+  };
+
+  render() {
+    const { email, message, disabled } = this.state;
+
     return (
       <footer className="bg-dark text-white pt-5">
         <Container>
@@ -56,16 +92,29 @@ class Footer extends Component {
             {/* Formulario */}
             <Col md={4} className="mb-4">
               <h5>Suscríbete</h5>
-              <Form action="#" method="POST">
+              <Form action="#" method="POST" onSubmit={this.handleSubmit}>
                 <Form.Group className="mb-3" controlId="email">
                   <Form.Label>Correo Electrónico</Form.Label>
-                  <Form.Control type="email" placeholder="Tu correo" required />
+                  <Form.Control 
+                    type="email" 
+                    placeholder="Tu correo" 
+                    name="email"
+                    value={email}
+                    onChange={this.handleChange}
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="mensaje">
                   <Form.Label>Mensaje</Form.Label>
-                  <Form.Control as="textarea" rows={3} placeholder="Escribe tu mensaje" />
+                  <Form.Control 
+                    as="textarea" 
+                    name="message"
+                    rows={3} 
+                    placeholder="Escribe tu mensaje" 
+                    value={message}
+                    onChange={this.handleChange} 
+                  />
                 </Form.Group>
-                <Button type="submit" variant="primary" className="w-100">
+                <Button type="submit" variant="primary" className="w-100" disabled={disabled}>
                   Enviar
                 </Button>
               </Form>
@@ -79,6 +128,6 @@ class Footer extends Component {
         </div>
       </footer>  
     );
-    }
+  }
 }
 export default Footer;

@@ -4,6 +4,7 @@ from flask import Blueprint, request, make_response, session, jsonify
 from main.database import Session
 from main.application import REVOKED_TOKENS
 from main.models import User
+import traceback
 
 api = Blueprint('main_apis', __name__)
 
@@ -40,7 +41,50 @@ def signout():
   session.clear()
   return 'api demo'
 
+@api.route('/api/comments', methods=['GET'])
+def comments():
+  comments = [
+    {
+      'guest': 'Juan Pérez',
+      'date': '10 de julio, 2023',
+      'comment': 'Un lugar maravilloso para visitar con la familia. ¡Las vistas son impresionantes y el personal muy amable!'
+    },
+    {
+      'guest': 'Ana Gómez',
+      'date': '15 de julio, 2023',
+      'comment': '¡Absolutamente recomendado! Un excelente lugar para desconectar y disfrutar de la naturaleza.'
+    },
+    {
+      'guest': 'Carlos Ruiz',
+      'date': '20 de julio, 2023',
+      'comment': 'Muy organizado, limpio y lleno de actividades para todas las edades. Sin duda volveremos.'
+    },
+  ]
+  return jsonify(comments)
 
 @api.route('/api/v1/demo')
 def demo():
   return '<h1>Bienvenido a la api de demo</h1>'
+
+@api.route('/api/message', methods=['POST'])
+def create_one():
+  # data
+  response = None
+  status = 200
+  # blogic
+  try:
+    session = Session()
+    data = request.get_json()
+    print(data)
+    response = 'correo enviado'
+  except Exception as e:
+    traceback.print_exc()
+    response = jsonify({
+      'message': 'Ocurrió un error en ...',
+      'error': str(e)
+    })
+    status = 500
+  finally:
+    session.close()
+  # response
+  return response, status

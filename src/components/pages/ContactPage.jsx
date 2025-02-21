@@ -4,25 +4,25 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import './ContactPage.css';
 
 class ContactPage extends Component {
-    constructor(props) {
-    super(props);
-        // Estado inicial del componente
-        this.state = { };
-    }
+  constructor(props) {
+  super(props);
+      // Estado inicial del componente
+      this.state = { };
+  }
 
-    incrementarContador = () => {
-    };
+  incrementarContador = () => {
+  };
 
-    // Método del ciclo de vida que se ejecuta después de que el componente se monta
-    componentDidMount() {
-        console.log('Componente montado');
-        document.title = 'Ingresar a la Aplicación';
-    }
-    // Método del ciclo de vida que se ejecuta justo antes de que el componente se desmonte
-    componentWillUnmount() {
-        console.log('Componente a punto de desmontarse');
-    }
-    render() {
+  // Método del ciclo de vida que se ejecuta después de que el componente se monta
+  componentDidMount() {
+    console.log('Componente montado');
+    document.title = 'Contáctenos';
+  }
+  // Método del ciclo de vida que se ejecuta justo antes de que el componente se desmonte
+  componentWillUnmount() {
+      console.log('Componente a punto de desmontarse');
+  }
+  render() {
     return (
       <Container className="my-5 contacto-container">
       <Row className="align-items-center">
@@ -98,6 +98,6 @@ class ContactPage extends Component {
       </Row>
     </Container>
     );
-    }
+  }
 }
 export default ContactPage;

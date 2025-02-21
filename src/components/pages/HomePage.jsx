@@ -1,10 +1,37 @@
-import React from 'react';
-import { Carousel, Container, Row, Col, Card, Button } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Carousel, Container, Row, Col, Card } from 'react-bootstrap';
+import Comment from '../widgets/Comment.jsx';
+import { fetchComments } from '../../services/comment_services.js';
 import './HomePage.css'
 
-const HomePage = () => {
-  return (
-    <>
+class HomePage extends Component {
+  constructor(props) {
+  super(props);
+    // Estado inicial del componente
+    this.state = { 
+      comments: [],
+    };
+  }
+  // Método del ciclo de vida que se ejecuta después de que el componente se monta
+  componentDidMount() {
+    console.log('Componente montado');
+    document.title = 'Ingresar a la Aplicación';
+    fetchComments().then((resp) => {    
+      this.setState((prevState) => ({
+        comments: resp.data
+      }));
+    }).catch((resp) =>  {
+      console.log(resp)
+    })
+  }
+  // Método del ciclo de vida que se ejecuta justo antes de que el componente se desmonte
+  componentWillUnmount() {
+    console.log('Componente a punto de desmontarse');
+  }
+  render() {
+    const { comments } = this.state;
+    return (
+      <>
       {/* Carousel */}
       <Carousel id="carouselExample" ride="carousel">
         {/* Indicadores */}
@@ -32,7 +59,6 @@ const HomePage = () => {
           </Carousel.Item>
         </Carousel>
       </Carousel>
-
       {/* Info Section */}
       <Container className="my-5">
         <Row className="align-items-center">
@@ -46,7 +72,6 @@ const HomePage = () => {
               Bootstrap facilita la creación de diseños responsivos y atractivos para que tu contenido se vea bien en cualquier dispositivo.
             </p>
           </Col>
-
           {/* Columna Derecha */}
           <Col md={6}>
             <img 
@@ -60,7 +85,6 @@ const HomePage = () => {
           </Col>
         </Row>
       </Container>
-
       {/* Atractivos Turísticos */}
       <Container className="my-5">
         <Row className="g-4" id="fila">
@@ -79,7 +103,6 @@ const HomePage = () => {
               </Card.Footer>
             </Card>
           </Col>
-
           {/* Atractivo 2 */}
           <Col md={4}>
             <Card className="h-100">
@@ -95,7 +118,6 @@ const HomePage = () => {
               </Card.Footer>
             </Card>
           </Col>
-
           {/* Atractivo 3 */}
           <Col md={4}>
             <Card className="h-100">
@@ -113,7 +135,27 @@ const HomePage = () => {
           </Col>
         </Row>
       </Container>
+      {/* Comments Section */}
+      <Container className="my-5">
+        <Row className="align-items-center">
+          {/* Columna Izquierda */}
+          <Col md={12}>
+            <h1 className="display-5" id="titulo">Comentarios</h1>
+          </Col>
+          {/* Columna Derecha */}
+          {comments.map((comment, index) => (
+            <Col md={4}>
+              <Comment 
+                comment={comment.comment} 
+                date={comment.date} 
+                guest={comment.guest}
+              />
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </>
-  )};
-
+    );
+  }
+}
 export default HomePage;
