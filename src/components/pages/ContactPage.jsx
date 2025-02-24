@@ -5,22 +5,18 @@ import './ContactPage.css';
 
 class ContactPage extends Component {
   constructor(props) {
-  super(props);
-      // Estado inicial del componente
-      this.state = { };
+    super(props);
+    // Estado inicial del componente
+    this.state = { };
   }
-
-  incrementarContador = () => {
-  };
-
   // Método del ciclo de vida que se ejecuta después de que el componente se monta
   componentDidMount() {
     console.log('Componente montado');
     document.title = 'Contáctenos';
   }
-  // Método del ciclo de vida que se ejecuta justo antes de que el componente se desmonte
+    // Método del ciclo de vida que se ejecuta justo antes de que el componente se desmonte
   componentWillUnmount() {
-      console.log('Componente a punto de desmontarse');
+    console.log('Componente a punto de desmontarse');
   }
   render() {
     return (

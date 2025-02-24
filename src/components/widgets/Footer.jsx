@@ -1,37 +1,38 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './NavBar.css';
-import { validateEmail } from '../../helpers/validations.js';
-import { sendMessage } from '../../services/website_service.js';
+import './Footer.css';
 
 class Footer extends Component {
   constructor(props) {
     super(props);
     // Estado inicial del componente
-    this.state = {
-      email: '',
-      message: '',
+    this.state = { 
+      email: '', validEmail: null,
+      message: '', validMessage: null, 
       disabled: true,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange = (e) => {
-    this.setState(
-      { 
-        [e.target.name]: e.target.value 
-      },
-      () =>{
-        const { email, message } = this.state;
-        if (validateEmail(email) && message != ''){
-          this.setState({disabled: false});
-        }else{
-          this.setState({disabled: true});
-        }
-      }
-    );
+  validateEmail = () => {
+    const { email } = this.state;
+    if(email.length == 0){
+      this.setState({validEmail: null});
+    }else{
+      const regex = /^[a-zA-Z0-9._%+-]+@certus\.edu\.pe$/;
+      this.setState({validEmail: regex.test(email)});
+    }
   };
+
+  validateMessage = () => {
+    const { message } = this.state;
+    if(message.length == 0){
+      this.setState({validMessage: null});
+    }else{
+      this.setState({validMessage: message.length > 0 && message.length <= 20});
+    }
+  };
+
   // Método del ciclo de vida que se ejecuta después de que el componente se monta
   componentDidMount() {
     console.log('Componente montado');
@@ -41,24 +42,49 @@ class Footer extends Component {
   componentWillUnmount() {
     console.log('Componente a punto de desmontarse');
   }
+  handleChange = (e) => {
+    this.setState(
+      {[e.target.name]: e.target.value}
+    , () => {
+      if(e.target.name == 'message'){this.validateMessage()}
+      if(e.target.name == 'email'){this.validateEmail()}
+    });
+  }
 
-  handleSubmit(e) {
-    e.preventDefault(); // Previene la recarga de la página al enviar el formulario
+  handleSubmit = (e) => {
+    e.preventDefault(); // Evitar que el formulario se recargue
     const { email, message } = this.state;
-    const params = {
+    const data = {
       email: email,
       message: message,
     }
-    sendMessage(params).then((resp) => {    
-      console.log(resp.data)
-    }).catch((resp) =>  {
-      console.error(resp)
-    });
+    fetch('/api/message', {
+      method: 'POST', // Método HTTP
+      headers: {
+          'Content-Type': 'application/json' // Indicar que se envía JSON
+        },
+        body: JSON.stringify(data) // Convertir el objeto a JSON
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Error en la solicitud: ${response.status}`);
+        }
+        alert('Mensaje Enviado');
+        this.setState({message: ''});
+        this.setState({validMessage: null});
+        this.setState({email: ''});        
+        this.setState({validEmail: null});
+      })
+      .then(data => {
+        console.log('Respuesta:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
 
   render() {
-    const { email, message, disabled } = this.state;
-
+    const { email, message, validEmail, validMessage} = this.state;
     return (
       <footer className="bg-dark text-white pt-5">
         <Container>
@@ -92,29 +118,52 @@ class Footer extends Component {
             {/* Formulario */}
             <Col md={4} className="mb-4">
               <h5>Suscríbete</h5>
-              <Form action="#" method="POST" onSubmit={this.handleSubmit}>
+              <Form onSubmit={this.handleSubmit} method="POST">
                 <Form.Group className="mb-3" controlId="email">
                   <Form.Label>Correo Electrónico</Form.Label>
                   <Form.Control 
                     type="email" 
                     placeholder="Tu correo" 
-                    name="email"
                     value={email}
+                    name='email' 
                     onChange={this.handleChange}
-                  />
+                    className={validEmail == null ? "" : (validEmail ? 'is-valid' : 'is-invalid')}
+                    required />
+                    {validEmail == null ? "" : 
+                      validEmail ?                       
+                      <Form.Control.Feedback className={'valid-feedback'} type="valid">
+                        Correo válido
+                      </Form.Control.Feedback> :
+                      <Form.Control.Feedback className={'invalid-feedback'} type="invalid">
+                        Debe de ser un correo de Certus
+                      </Form.Control.Feedback>
+                    }
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="mensaje">
-                  <Form.Label>Mensaje</Form.Label>
+                  <Form.Label>Mensaje ({message.length} / 20)</Form.Label>
                   <Form.Control 
                     as="textarea" 
-                    name="message"
                     rows={3} 
                     placeholder="Escribe tu mensaje" 
+                    name='message' 
                     value={message}
-                    onChange={this.handleChange} 
-                  />
+                    onChange={this.handleChange}
+                    className={validMessage == null ? "" : (validMessage ? 'is-valid' : 'is-invalid')}/>
+                    {validMessage == null ? "" : 
+                      validMessage ?                       
+                      <Form.Control.Feedback className={'valid-feedback'} type="valid">
+                        Mensaje válido
+                      </Form.Control.Feedback> :
+                      <Form.Control.Feedback className={'invalid-feedback'} type="invalid">
+                        Mensaje no debe de superar los 20 caracteres.
+                      </Form.Control.Feedback>
+                    }
                 </Form.Group>
-                <Button type="submit" variant="primary" className="w-100" disabled={disabled}>
+                <Button 
+                  type="submit" 
+                  variant="primary" 
+                  className="w-100" 
+                  disabled={!validEmail || !validMessage}>
                   Enviar
                 </Button>
               </Form>

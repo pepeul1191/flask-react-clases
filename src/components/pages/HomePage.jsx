@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
 import { Carousel, Container, Row, Col, Card } from 'react-bootstrap';
 import Comment from '../widgets/Comment.jsx';
-import { fetchComments } from '../../services/comment_services.js';
 import './HomePage.css'
 
 class HomePage extends Component {
+  // Array comments = [];
   constructor(props) {
-  super(props);
+    super(props);
     // Estado inicial del componente
-    this.state = { 
+    this.state = {
       comments: [],
     };
   }
   // Método del ciclo de vida que se ejecuta después de que el componente se monta
   componentDidMount() {
     console.log('Componente montado');
-    document.title = 'Ingresar a la Aplicación';
-    fetchComments().then((resp) => {    
-      this.setState((prevState) => ({
-        comments: resp.data
-      }));
-    }).catch((resp) =>  {
-      console.log(resp)
-    })
+    document.title = 'Bienvenido';
+    fetch('/api/comments',{
+      method: 'GET',
+      headers: {}}
+    ).then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la solicitud: ' + response.status);
+        }
+        return response.json(); // Convertir la respuesta a JSON
+      })
+      .then(data => {
+        console.log('Datos:', data); // Procesar los datos
+        //this.setComments(data);
+        this.setState({
+          comments: data,
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error); // Manejo de errores
+      });
   }
   // Método del ciclo de vida que se ejecuta justo antes de que el componente se desmonte
   componentWillUnmount() {
@@ -30,6 +42,7 @@ class HomePage extends Component {
   }
   render() {
     const { comments } = this.state;
+
     return (
       <>
       {/* Carousel */}
@@ -59,6 +72,7 @@ class HomePage extends Component {
           </Carousel.Item>
         </Carousel>
       </Carousel>
+
       {/* Info Section */}
       <Container className="my-5">
         <Row className="align-items-center">
@@ -72,6 +86,7 @@ class HomePage extends Component {
               Bootstrap facilita la creación de diseños responsivos y atractivos para que tu contenido se vea bien en cualquier dispositivo.
             </p>
           </Col>
+
           {/* Columna Derecha */}
           <Col md={6}>
             <img 
@@ -85,6 +100,7 @@ class HomePage extends Component {
           </Col>
         </Row>
       </Container>
+
       {/* Atractivos Turísticos */}
       <Container className="my-5">
         <Row className="g-4" id="fila">
@@ -103,6 +119,7 @@ class HomePage extends Component {
               </Card.Footer>
             </Card>
           </Col>
+
           {/* Atractivo 2 */}
           <Col md={4}>
             <Card className="h-100">
@@ -118,6 +135,7 @@ class HomePage extends Component {
               </Card.Footer>
             </Card>
           </Col>
+
           {/* Atractivo 3 */}
           <Col md={4}>
             <Card className="h-100">
@@ -134,22 +152,14 @@ class HomePage extends Component {
             </Card>
           </Col>
         </Row>
-      </Container>
-      {/* Comments Section */}
-      <Container className="my-5">
-        <Row className="align-items-center">
-          {/* Columna Izquierda */}
-          <Col md={12}>
-            <h1 className="display-5" id="titulo">Comentarios</h1>
-          </Col>
-          {/* Columna Derecha */}
+        <Row className="g-4">
+          <h1 className="display-5" id="titulo">Comentarios</h1>
           {comments.map((comment, index) => (
             <Col md={4}>
               <Comment 
-                comment={comment.comment} 
-                date={comment.date} 
-                guest={comment.guest}
-              />
+                guest={comment.guest} 
+                comment={comment.comment}
+                date={comment.date} />
             </Col>
           ))}
         </Row>
@@ -158,4 +168,5 @@ class HomePage extends Component {
     );
   }
 }
+
 export default HomePage;

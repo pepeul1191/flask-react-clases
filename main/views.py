@@ -10,29 +10,7 @@ view = Blueprint('main_views', __name__, template_folder='./templates')
 @view.route('/contacto')
 @logged_go_admin
 def home():
-  comments = [
-    {
-      'guest': 'Juan Pérez',
-      'date': '10 de julio, 2023',
-      'comment': 'Un lugar maravilloso para visitar con la familia. ¡Las vistas son impresionantes y el personal muy amable!'
-    },
-    {
-      'guest': 'Ana Gómez',
-      'date': '15 de julio, 2023',
-      'comment': '¡Absolutamente recomendado! Un excelente lugar para desconectar y disfrutar de la naturaleza.'
-    },
-    {
-      'guest': 'Carlos Ruiz',
-      'date': '20 de julio, 2023',
-      'comment': 'Muy organizado, limpio y lleno de actividades para todas las edades. Sin duda volveremos.'
-    },
-  ]
-  locals = {
-    'title': 'Bienvenido',
-    'nav': 'home',
-    'comments': comments
-  }
-  return render_template('home.html', locals=locals)
+  return render_template('home.html')
 
 """
 @view.route('/nosotros')

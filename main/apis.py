@@ -1,10 +1,10 @@
 from datetime import timedelta
+import traceback
 from flask_jwt_extended import create_access_token, get_jwt, jwt_required
 from flask import Blueprint, request, make_response, session, jsonify
 from main.database import Session
 from main.application import REVOKED_TOKENS
 from main.models import User
-import traceback
 
 api = Blueprint('main_apis', __name__)
 
@@ -67,16 +67,17 @@ def demo():
   return '<h1>Bienvenido a la api de demo</h1>'
 
 @api.route('/api/message', methods=['POST'])
-def create_one():
+def message():
   # data
   response = None
   status = 200
   # blogic
+  session = Session()
   try:
     session = Session()
     data = request.get_json()
     print(data)
-    response = 'correo enviado'
+    response = ':)'
   except Exception as e:
     traceback.print_exc()
     response = jsonify({
