@@ -1,5 +1,4 @@
 from datetime import timedelta
-import traceback
 from flask_jwt_extended import create_access_token, get_jwt, jwt_required
 from flask import Blueprint, request, make_response, session, jsonify
 from main.database import Session
@@ -65,27 +64,3 @@ def comments():
 @api.route('/api/v1/demo')
 def demo():
   return '<h1>Bienvenido a la api de demo</h1>'
-
-@api.route('/api/message', methods=['POST'])
-def message():
-  # data
-  response = None
-  status = 200
-  # blogic
-  session = Session()
-  try:
-    session = Session()
-    data = request.get_json()
-    print(data)
-    response = ':)'
-  except Exception as e:
-    traceback.print_exc()
-    response = jsonify({
-      'message': 'Ocurrió un error en ...',
-      'error': str(e)
-    })
-    status = 500
-  finally:
-    session.close()
-  # response
-  return response, status
