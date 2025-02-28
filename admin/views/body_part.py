@@ -15,7 +15,8 @@ def home():
     'nav': 'nosotros',
     'body_parts': body_parts,
   }
-  return render_template('body_part/index.html', locals=locals)
+  #return render_template('body_part/index.html', locals=locals)
+  return render_template('admin.html', locals=locals)
 
 @view.route('/admin/body-parts/add', methods=['GET'])
 def agregar():

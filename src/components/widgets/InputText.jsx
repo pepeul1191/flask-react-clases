@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button, NavItem } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './InputText.css';
 
 class InputText extends Component {
@@ -7,21 +8,17 @@ class InputText extends Component {
     super(props);
     // Estado inicial del componente
     this.state = { 
+      type: props.type || 'text',
       id: props.id || Math.random().toString(36).substring(2, 12),
-      name: props.name,
-      label: props.label,
-      type: props.type || 'text', // text, email, ...
-      className: props.className || '', 
-      placeholder: props.placeholder || '',
-      value: props.value || '', 
+      value: props.value || '',
       valid: null,
-      feedbackText: props.feedbackText /* {valid,invalid} */ || null, 
-      disabled: props.disabled || false,
-      onChangeValidations: props.onChangeValidations || [],
-      onSubmitValidations: props.onSubmitValidations || [],
+      feedback: '',
     };
-    console.log(this.state)
   }
+
+  static defaultProps = {
+    onChangeValidations: [],
+  };
 
   // Método del ciclo de vida que se ejecuta después de que el componente se monta
   componentDidMount() {
@@ -43,78 +40,86 @@ class InputText extends Component {
     }
   }
 
-  validateMaxLength = (maxLength) => {
-    const { value } = this.state;
-    if(value != ''){
-      if(value.length <= maxLength){
-        return true;
+  validateMessage = () => {
+    const { message } = this.state;
+    //console.log(message)
+    if(message != ''){
+      if(message.length > 0 && message.length <= 20){
+        this.setState({validMessage: true});
       }else{
-        return false;
+        this.setState({validMessage: false});
       }
     }else{
-      return null;
+      this.setState({validMessage: null});
     }
   }
 
   handleChange = (e) => {
-    console.log(e.target)
     this.setState(
-      {value: e.target.value}
+      {value: e.target.value} // e.targe.value: es el valor actual de input
     , () => {
-      const {  onChangeValidations, valid, value } = this.state;
+      const { onChangeValidations } = this.props;
       var isValid = true;
-      var feedbackText = '';
+      var feedback = '';
       onChangeValidations.forEach((validation) => {
         if(isValid){
           if(validation.type == 'email'){
             isValid = this.validateEmail();
           }else if(validation.type == 'maxLength'){
-            isValid = this.validateMaxLength(validation.max);
+            isValid = e.target.value.length == 0 ? null : (e.target.value.length <= validation.max ? true : false);
+          }else if(validation.type == 'dni'){
+            isValid = null;
+            // TODO
+          }else if(validation.type == 'custom'){
+            console.log('custom')
+            validation.def();
+          }else{
+            console.error(`validación ${validation.type} no existe`);
+            isValid = null;
           }
-          feedbackText = isValid == null ? '' : (isValid ? validation.validText : validation.invalidTex);
+          // update feedback
+          if(isValid){
+            feedback = validation.validText;
+          }else if(feedback == null){
+            feedback = '';
+          }else{
+            feedback = validation.invalidText;
+          }
         }
       });
       this.setState({valid: isValid});
-      this.setState({feedbackText: feedbackText});
+      this.setState({feedback: feedback});
+      // Enviar la información de validación al componente padre
+      if (this.props.onValidationChange) {
+        this.props.onValidationChange(isValid);
+      }
     });
-  };
+  }
 
   render() {
-    const { 
-      id,
-      name, 
-      label, 
-      type, 
-      className, 
-      valid, 
-      feedbackText, 
-      disabled, 
-      placeholder,
-      value,  
-    } = this.state;
+    const { label, placeholder, name } = this.props;
+    const { type, id, value, valid, feedback } = this.state;
     return (
-      <Form.Group className="mb-3" controlId="email">
+      <Form.Group className="mb-6" controlId={id}>
         <Form.Label>{label}</Form.Label>
         <Form.Control 
-          type={type}
-          placeholder={placeholder} 
+          type={type} 
+          placeholder={placeholder}
           value={value}
-          name={name} 
-          id={id}
+          name={name}
           onChange={this.handleChange}
-          className={`${className} ${valid == null ? "" : valid ? "is-valid" : "is-invalid"}`} 
-          disabled={disabled}/>
+          className={valid == null ? '': (valid ? 'is-valid': 'is-invalid')}
+          required />
         {valid == null ? '' :
-          valid == true ?
-            <Form.Control.Feedback>
-              {feedbackText}
-            </Form.Control.Feedback>:
-            <Form.Control.Feedback type="invalid">  
-              {feedbackText}
-            </Form.Control.Feedback>}
+        valid == true ?
+          <Form.Control.Feedback>
+            {feedback}
+          </Form.Control.Feedback>
+        : <Form.Control.Feedback type="invalid">  
+          {feedback}
+        </Form.Control.Feedback>}
       </Form.Group>
     );
   }
 }
-
 export default InputText;

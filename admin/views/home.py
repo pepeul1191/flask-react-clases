@@ -11,7 +11,7 @@ def home():
     'title': 'Nosotros',
     'nav': 'nosotros',
   }
-  return render_template('admin_index.html', locals=locals)
+  return render_template('admin.html', locals=locals)
 
 @view.route('/admin/hola')
 def hola():

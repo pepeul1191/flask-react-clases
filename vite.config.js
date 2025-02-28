@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       input: {
         web: fileURLToPath(new URL('./src/entries/web.jsx', import.meta.url)),
-        access: fileURLToPath(new URL('./src/entries/access.jsx', import.meta.url))
+        app: fileURLToPath(new URL('./src/entries/app.jsx', import.meta.url))
       },
       output: {
         manualChunks(id) {

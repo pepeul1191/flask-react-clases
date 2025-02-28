@@ -13,6 +13,7 @@ class Footer extends Component {
       message: '', validMessage: null,
       disabled: true,
     };
+    this.inputEmailRef = React.createRef(); 
   }
 
   incrementarContador = () => {
@@ -68,7 +69,7 @@ class Footer extends Component {
     const { email, message } = this.state;
     // Usar fetch para enviar la solicitud POST
     const data = {
-      email: email,
+      email: this.inputEmailRef.current.state.value,
       message: message,
     }
     fetch('/api/message', {
@@ -93,6 +94,12 @@ class Footer extends Component {
       });
   }
 
+  handleValidationChange = (valid) => {
+    this.setState({
+      validEmail: valid,
+    });
+  };
+
   render() {
     const { email, message, validEmail, validMessage } = this.state;
   return (
@@ -111,8 +118,9 @@ class Footer extends Component {
             </ul>
           </Col>
 
-          {/* Información de contacto 
+          {/* Información de contacto */}
           <Col md={4} className="mb-4">
+            {/* Información de contacto 
             <h5>Contacto</h5>
             <p>
               📍 Dirección: Calle Principal, 123<br />
@@ -123,52 +131,80 @@ class Footer extends Component {
             <a href="#" className="text-white me-3"><i className="bi bi-facebook"></i></a>
             <a href="#" className="text-white me-3"><i className="bi bi-twitter"></i></a>
             <a href="#" className="text-white"><i className="bi bi-instagram"></i></a>
-          </Col>
-          */}
-          <Col md={4} className="mb-4">
-            <h5>Formulario</h5>
+            */}
+            <h5>Suscríbete</h5>
             <InputText 
-              name='name'
-              label='Nombre' 
-              onChangeValidations={[
+              id="txtNombre"
+              label="Nombre" 
+              placeholder="Ingrese su nombre" 
+              name="name"
+              value=""
+              onChangeValidations= {[
                 {
+                  type: 'maxLength',
+                  validText: '',
+                  invalidText: 'No puede tener más de 10 carecteres.',
+                  max: 10
+                },
+              ]} 
+              />
+            <InputText 
+              name = "email"
+              label="Email" 
+              placeholder="Ingrese su email"
+              type="email" 
+              onChangeValidations= {[
+                {
+                  type: 'email',
                   validText: 'Correo válido',
-                  invalidText: 'Formato de correo inválido',
-                  type: 'email'
+                  invalidText: 'Formato del correo no válido'
                 },
                 {
-                  validText: 'Correo válido',
-                  invalidText: 'Correo tiene muchos caracteres (20 max)',
                   type: 'maxLength',
+                  validText: '',
+                  invalidText: 'Correo no puede pasar los 20 caracteres.',
                   max: 20
                 },
-              ]}
-              onSubmitValidations={[]}/>
+                {
+                  type: 'maxLengthdddd',
+                  validText: '',
+                  invalidText: 'Correo no puede pasar los 20 caracteres.',
+                  max: 20
+                },
+                {
+                  type: 'custom',
+                  validText: '',
+                  invalidText: 'Correo no puede pasar los 20 caracteres.',
+                  def: () => {
+                    alert();
+                  }
+                },
+              ]}/>
+            <InputText 
+              label="Edad" 
+              placeholder="Ingrese su edad"
+              type="number"
+              name="edad"/>
           </Col>
 
           {/* Formulario */}
           <Col md={4} className="mb-4">
             <h5>Suscríbete</h5>
             <Form onSubmit={this.handleSubmit} method="POST">
-              <Form.Group className="mb-3" controlId="email">
-                <Form.Label>Correo Electrónico</Form.Label>
-                <Form.Control 
-                  type="email" 
-                  placeholder="Tu correo" 
-                  value={email}
-                  name='email' 
-                  onChange={this.handleChange}
-                  className={validEmail == null ? '': (validEmail ? 'is-valid': 'is-invalid')}
-                  required />
-                {validEmail == null ? '' :
-                  validEmail == true ?
-                    <Form.Control.Feedback>
-                      Correo válido
-                    </Form.Control.Feedback>
-                  : <Form.Control.Feedback type="invalid">  
-                    No correo válido
-                  </Form.Control.Feedback>}
-              </Form.Group>
+              <InputText 
+                ref={this.inputEmailRef}
+                name = "email"
+                label="Email" 
+                placeholder="Ingrese su email"
+                type="email" 
+                onValidationChange={this.handleValidationChange}
+                onChangeValidations= {[
+                  {
+                    type: 'email',
+                    validText: 'Correo válido',
+                    invalidText: 'Formato del correo no válido'
+                  },
+                ]}/>
               <Form.Group className="mb-3" controlId="mensaje">
                 <Form.Label>Mensaje {message.length} / 20</Form.Label>
                 <Form.Control 
@@ -208,5 +244,4 @@ class Footer extends Component {
   );
   }
 }
-
 export default Footer;

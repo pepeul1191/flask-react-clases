@@ -20,7 +20,7 @@ def sign_in():
     User.password == password
   ).first() # SELECT * FROM un = 'asdfasd' and passowrd = ''''
   if user:
-    expires = timedelta(minutes=30)  # Configura la duración del token a 1 hora
+    expires = timedelta(minutes=300)  # Configura la duración del token a 1 hora
     access_token = create_access_token(identity=username, expires_delta=expires)
     # Crear respuesta y establecer cookie con JWT
     response = make_response()
